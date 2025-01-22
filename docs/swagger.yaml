@@ -1,4 +1,17 @@
 definitions:
+  controllers.carsInput:
+    properties:
+      daily_rent:
+        type: integer
+      name:
+        type: string
+      stock:
+        type: integer
+    required:
+    - daily_rent
+    - name
+    - stock
+    type: object
   controllers.customerInput:
     properties:
       name:
@@ -11,6 +24,21 @@ definitions:
     - name
     - nik
     - phone_number
+    type: object
+  models.Cars:
+    properties:
+      created_at:
+        type: string
+      daily_rent:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      stock:
+        type: integer
+      updated_at:
+        type: string
     type: object
   models.Customer:
     properties:
@@ -30,6 +58,85 @@ definitions:
 info:
   contact: {}
 paths:
+  /cars:
+    get:
+      description: Get a list of cars.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Cars'
+            type: array
+      summary: Get All Cars.
+      tags:
+      - Cars
+    post:
+      description: Create a new cars.
+      parameters:
+      - description: The body to create a new Cars
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.carsInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Cars'
+      summary: Create New Cars.
+      tags:
+      - Cars
+  /cars/{id}:
+    delete:
+      description: Delete a cars by id.
+      parameters:
+      - description: Cars ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete one cars.
+      tags:
+      - Cars
+    patch:
+      description: Update cars by id.
+      parameters:
+      - description: Cars ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The body to update an Cars
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.carsInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Cars'
+      summary: Update Cars.
+      tags:
+      - Cars
   /customer:
     get:
       description: Get a list of customer.

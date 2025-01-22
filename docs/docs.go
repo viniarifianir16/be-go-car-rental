@@ -15,6 +15,126 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/cars": {
+            "get": {
+                "description": "Get a list of cars.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Get All Cars.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Cars"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new cars.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Create New Cars.",
+                "parameters": [
+                    {
+                        "description": "The body to create a new Cars",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.carsInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Cars"
+                        }
+                    }
+                }
+            }
+        },
+        "/cars/{id}": {
+            "delete": {
+                "description": "Delete a cars by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Delete one cars.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cars ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update cars by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Update Cars.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cars ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "The body to update an Cars",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.carsInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Cars"
+                        }
+                    }
+                }
+            }
+        },
         "/customer": {
             "get": {
                 "description": "Get a list of customer.",
@@ -137,6 +257,25 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "controllers.carsInput": {
+            "type": "object",
+            "required": [
+                "daily_rent",
+                "name",
+                "stock"
+            ],
+            "properties": {
+                "daily_rent": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "stock": {
+                    "type": "integer"
+                }
+            }
+        },
         "controllers.customerInput": {
             "type": "object",
             "required": [
@@ -152,6 +291,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Cars": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "daily_rent": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "stock": {
+                    "type": "integer"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
