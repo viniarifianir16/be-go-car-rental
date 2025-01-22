@@ -4,12 +4,14 @@ import "time"
 
 type Booking struct {
 	ID         uint      `json:"id" gorm:"primaryKey;autoIncremet"`
-	CustomerID uint      `json:"customer_id"`
-	CarsID     uint      `json:"cars_id"`
-	StartRent  time.Time `json:"start_rent"`
-	EndRent    time.Time `json:"end_rent"`
-	TotalCost  uint      `json:"total_cost"`
-	Finished   bool      `json:"finished"`
+	CustomerID uint      `json:"customer_id" gorm:"unique" binding:"required"`
+	CarsID     uint      `json:"cars_id" gorm:"unique" binding:"required"`
+	StartRent  time.Time `json:"start_rent" gorm:"type:TIMESTAMP" binding:"required"`
+	EndRent    time.Time `json:"end_rent" gorm:"type:TIMESTAMP" binding:"required"`
+	TotalCost  uint      `json:"total_cost" binding:"required"`
+	Finished   bool      `json:"finished" gorm:"type:BOOLEAN"`
 	CreatedAt  time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt  time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+	Customer   Customer  `json:"customer" gorm:"foreignKey:CustomerID"`
+	Cars       Cars      `json:"cars" gorm:"foreignKey:CarsID"`
 }

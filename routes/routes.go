@@ -27,5 +27,11 @@ func SetupRouter(db *gorm.DB, r *gin.Engine) {
 	r.PATCH("/cars/:id", controllers.UpdateCars)
 	r.DELETE("/cars/:id", controllers.DeleteCars)
 
+	// Booking Router
+	r.GET("/booking", controllers.GetAllBooking)
+	r.POST("/booking", controllers.CreateBooking)
+	r.PATCH("/booking/:id", controllers.UpdateBooking)
+	r.DELETE("/cabookingrs/:id", controllers.DeleteBooking)
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

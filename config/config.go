@@ -14,6 +14,7 @@ import (
 )
 
 func ConnectDatabase() *gorm.DB {
+	// if error run "go clean -cache"
 	dbProvider := GetEnvOrDefault("DB_PROVIDER", "mysql")
 
 	var db *gorm.DB
@@ -25,11 +26,11 @@ func ConnectDatabase() *gorm.DB {
 		port := os.Getenv("DB_PORT")
 		database := os.Getenv("DB_NAME")
 
-		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
+		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require stmtcache.mode=describe",
 			host, username, password, database, port)
 		dbGorm, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 			PrepareStmt: false,
-			Logger:      logger.Default.LogMode(logger.Info),
+			Logger:      logger.Default.LogMode(logger.Silent),
 		})
 		if err != nil {
 			panic(err.Error())
@@ -48,7 +49,7 @@ func ConnectDatabase() *gorm.DB {
 			username, password, host, port, database)
 		dbGorm, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 			PrepareStmt: false,
-			Logger:      logger.Default.LogMode(logger.Info),
+			Logger:      logger.Default.LogMode(logger.Silent),
 		})
 		log.Printf("Connecting to database with: host=%s port=%s user=%s dbname=%s", host, port, username, database)
 
@@ -59,10 +60,17 @@ func ConnectDatabase() *gorm.DB {
 		db = dbGorm
 	}
 
-	// go clean -cache
-	if db != nil {
-		return db
-	}
+	// if !db.Migrator().HasTable(&models.Customer{}) {
+	// 	db.AutoMigrate(&models.Customer{})
+	// }
+
+	// if !db.Migrator().HasTable(&models.Cars{}) {
+	// 	db.AutoMigrate(&models.Cars{})
+	// }
+
+	// if !db.Migrator().HasTable(&models.Booking{}) {
+	// 	db.AutoMigrate(&models.Booking{})
+	// }
 
 	err := db.AutoMigrate(
 		&models.Customer{},
@@ -74,21 +82,15 @@ func ConnectDatabase() *gorm.DB {
 	}
 
 	var customerCount int64
-	var carCount int64
-
 	db.Model(&models.Customer{}).Count(&customerCount)
-	db.Model(&models.Cars{}).Count(&carCount)
-
 	if customerCount == 0 {
 		seeders.SeedCustomer(db)
-	} else {
-		log.Println("Data already exists in the customer table. Seeder will not run.")
 	}
 
+	var carCount int64
+	db.Model(&models.Cars{}).Count(&carCount)
 	if carCount == 0 {
 		seeders.SeedCars(db)
-	} else {
-		log.Println("Data already exists in the cars table. Seeder will not run.")
 	}
 
 	return db

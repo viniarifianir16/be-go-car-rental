@@ -15,6 +15,126 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/booking": {
+            "get": {
+                "description": "Get a list of booking.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Get All Booking.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Booking"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new booking.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Create New Booking.",
+                "parameters": [
+                    {
+                        "description": "The body to create a new Booking",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.bookingInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            }
+        },
+        "/booking/{id}": {
+            "delete": {
+                "description": "Delete a booking by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Delete one booking.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Booking ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update booking by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Update Booking.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Booking ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "The body to update an Booking",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.bookingInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            }
+        },
         "/cars": {
             "get": {
                 "description": "Get a list of cars.",
@@ -257,6 +377,36 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "controllers.bookingInput": {
+            "type": "object",
+            "required": [
+                "cars_id",
+                "customer_id",
+                "end_rent",
+                "start_rent",
+                "total_cost"
+            ],
+            "properties": {
+                "cars_id": {
+                    "type": "integer"
+                },
+                "customer_id": {
+                    "type": "integer"
+                },
+                "end_rent": {
+                    "type": "string"
+                },
+                "finished": {
+                    "type": "boolean"
+                },
+                "start_rent": {
+                    "type": "string"
+                },
+                "total_cost": {
+                    "type": "integer"
+                }
+            }
+        },
         "controllers.carsInput": {
             "type": "object",
             "required": [
@@ -295,8 +445,58 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Booking": {
+            "type": "object",
+            "required": [
+                "cars_id",
+                "customer_id",
+                "end_rent",
+                "start_rent",
+                "total_cost"
+            ],
+            "properties": {
+                "cars": {
+                    "$ref": "#/definitions/models.Cars"
+                },
+                "cars_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "customer": {
+                    "$ref": "#/definitions/models.Customer"
+                },
+                "customer_id": {
+                    "type": "integer"
+                },
+                "end_rent": {
+                    "type": "string"
+                },
+                "finished": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "start_rent": {
+                    "type": "string"
+                },
+                "total_cost": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Cars": {
             "type": "object",
+            "required": [
+                "daily_rent",
+                "name",
+                "stock"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -320,6 +520,11 @@ const docTemplate = `{
         },
         "models.Customer": {
             "type": "object",
+            "required": [
+                "name",
+                "nik",
+                "phone_number"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"

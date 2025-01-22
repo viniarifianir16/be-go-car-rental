@@ -1,4 +1,25 @@
 definitions:
+  controllers.bookingInput:
+    properties:
+      cars_id:
+        type: integer
+      customer_id:
+        type: integer
+      end_rent:
+        type: string
+      finished:
+        type: boolean
+      start_rent:
+        type: string
+      total_cost:
+        type: integer
+    required:
+    - cars_id
+    - customer_id
+    - end_rent
+    - start_rent
+    - total_cost
+    type: object
   controllers.carsInput:
     properties:
       daily_rent:
@@ -25,6 +46,37 @@ definitions:
     - nik
     - phone_number
     type: object
+  models.Booking:
+    properties:
+      cars:
+        $ref: '#/definitions/models.Cars'
+      cars_id:
+        type: integer
+      created_at:
+        type: string
+      customer:
+        $ref: '#/definitions/models.Customer'
+      customer_id:
+        type: integer
+      end_rent:
+        type: string
+      finished:
+        type: boolean
+      id:
+        type: integer
+      start_rent:
+        type: string
+      total_cost:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - cars_id
+    - customer_id
+    - end_rent
+    - start_rent
+    - total_cost
+    type: object
   models.Cars:
     properties:
       created_at:
@@ -39,6 +91,10 @@ definitions:
         type: integer
       updated_at:
         type: string
+    required:
+    - daily_rent
+    - name
+    - stock
     type: object
   models.Customer:
     properties:
@@ -54,10 +110,93 @@ definitions:
         type: string
       updated_at:
         type: string
+    required:
+    - name
+    - nik
+    - phone_number
     type: object
 info:
   contact: {}
 paths:
+  /booking:
+    get:
+      description: Get a list of booking.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Booking'
+            type: array
+      summary: Get All Booking.
+      tags:
+      - Booking
+    post:
+      description: Create a new booking.
+      parameters:
+      - description: The body to create a new Booking
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.bookingInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Create New Booking.
+      tags:
+      - Booking
+  /booking/{id}:
+    delete:
+      description: Delete a booking by id.
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete one booking.
+      tags:
+      - Booking
+    patch:
+      description: Update booking by id.
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The body to update an Booking
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.bookingInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Update Booking.
+      tags:
+      - Booking
   /cars:
     get:
       description: Get a list of cars.
