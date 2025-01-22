@@ -1,5 +1,5 @@
 definitions:
-  controllers.customersInput:
+  controllers.customerInput:
     properties:
       name:
         type: string
@@ -12,7 +12,7 @@ definitions:
     - nik
     - phone_number
     type: object
-  models.Customers:
+  models.Customer:
     properties:
       created_at:
         type: string
@@ -30,9 +30,9 @@ definitions:
 info:
   contact: {}
 paths:
-  /customers:
+  /customer:
     get:
-      description: Get a list of customers.
+      description: Get a list of customer.
       produces:
       - application/json
       responses:
@@ -40,35 +40,35 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Customers'
+              $ref: '#/definitions/models.Customer'
             type: array
-      summary: Get All Customers.
+      summary: Get All Customer.
       tags:
-      - Customers
+      - Customer
     post:
-      description: Create a new customers.
+      description: Create a new customer.
       parameters:
-      - description: The body to create a new Customers
+      - description: The body to create a new Customer
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controllers.customersInput'
+          $ref: '#/definitions/controllers.customerInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Customers'
-      summary: Create New Customers.
+            $ref: '#/definitions/models.Customer'
+      summary: Create New Customer.
       tags:
-      - Customers
-  /customers/{id}:
+      - Customer
+  /customer/{id}:
     delete:
-      description: Delete a customers by id.
+      description: Delete a customer by id.
       parameters:
-      - description: Customers ID
+      - description: Customer ID
         in: path
         name: id
         required: true
@@ -82,31 +82,31 @@ paths:
             additionalProperties:
               type: boolean
             type: object
-      summary: Delete one customers.
+      summary: Delete one customer.
       tags:
-      - Customers
+      - Customer
     patch:
-      description: Update customers by id.
+      description: Update customer by id.
       parameters:
-      - description: Customers ID
+      - description: Customer ID
         in: path
         name: id
         required: true
         type: string
-      - description: The body to update an Customers
+      - description: The body to update an Customer
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controllers.customersInput'
+          $ref: '#/definitions/controllers.customerInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Customers'
-      summary: Update Customers.
+            $ref: '#/definitions/models.Customer'
+      summary: Update Customer.
       tags:
-      - Customers
+      - Customer
 swagger: "2.0"

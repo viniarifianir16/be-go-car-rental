@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type customersInput struct {
+type customerInput struct {
 	Name        string `json:"name" binding:"required"`
 	NIK         string `json:"nik" binding:"required"`
 	PhoneNumber string `json:"phone_number" binding:"required"`
@@ -16,98 +16,98 @@ type customersInput struct {
 
 // GetAllCustomer godoc
 // @Summary Get All Customer.
-// @Description Get a list of customers.
+// @Description Get a list of customer.
 // @Tags Customer
 // @Produce json
 // @Success 200 {object} []models.Customer
-// @Router /customers [get]
+// @Router /customer [get]
 func GetAllCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var customers []models.Customer
-	if err := db.Find(&customers).Error; err != nil {
+	var customer []models.Customer
+	if err := db.Find(&customer).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, customers)
+	c.JSON(http.StatusOK, customer)
 }
 
 // CreateCustomer godoc
 // @Summary Create New Customer.
-// @Description Create a new customers.
+// @Description Create a new customer.
 // @Tags Customer
-// @Param Body body customersInput true "The body to create a new Customer"
+// @Param Body body customerInput true "The body to create a new Customer"
 // @Produce json
 // @Success 200 {object} models.Customer
-// @Router /customers [post]
+// @Router /customer [post]
 func CreateCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var customers models.Customer
+	var customer models.Customer
 
-	var input customersInput
+	var input customerInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	customers = models.Customer{
+	customer = models.Customer{
 		Name:        input.Name,
 		NIK:         input.NIK,
 		PhoneNumber: input.PhoneNumber,
 	}
 
-	if err := db.Create(&customers).Error; err != nil {
+	if err := db.Create(&customer).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, customers)
+	c.JSON(http.StatusCreated, customer)
 }
 
 // UpdateCustomer godoc
 // @Summary Update Customer.
-// @Description Update customers by id.
+// @Description Update customer by id.
 // @Tags Customer
 // @Param id path string true "Customer ID"
-// @Param Body body customersInput true "The body to update an Customer"
+// @Param Body body customerInput true "The body to update an Customer"
 // @Produce json
 // @Success 200 {object} models.Customer
-// @Router /customers/{id} [patch]
+// @Router /customer/{id} [patch]
 func UpdateCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	id := c.Param("id")
-	var customers models.Customer
-	var input customersInput
+	var customer models.Customer
+	var input customerInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := db.First(&customers, id).Error; err != nil {
+	if err := db.First(&customer, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Customer not found"})
 		return
 	}
 
-	customers.Name = input.Name
-	customers.NIK = input.NIK
-	customers.PhoneNumber = input.PhoneNumber
+	customer.Name = input.Name
+	customer.NIK = input.NIK
+	customer.PhoneNumber = input.PhoneNumber
 
-	if err := db.Save(&customers).Error; err != nil {
+	if err := db.Save(&customer).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, customers)
+	c.JSON(http.StatusOK, customer)
 }
 
 // DeleteCustomer godoc
-// @Summary Delete one customers.
-// @Description Delete a customers by id.
+// @Summary Delete one customer.
+// @Description Delete a customer by id.
 // @Tags Customer
 // @Param id path string true "Customer ID"
 // @Produce json
 // @Success 200 {object} map[string]boolean
-// @Router /customers/{id} [delete]
+// @Router /customer/{id} [delete]
 func DeleteCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	id := c.Param("id")

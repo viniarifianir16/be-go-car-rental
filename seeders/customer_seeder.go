@@ -8,7 +8,7 @@ import (
 )
 
 func SeedCustomer(db *gorm.DB) {
-	customers := []models.Customer{
+	customer := []models.Customer{
 		{Name: "Wawan Hermawan", NIK: "3372093912739", PhoneNumber: "081237123682"},
 		{Name: "Philip Walker", NIK: "3372093912785", PhoneNumber: "081237123683"},
 		{Name: "Hugo Fleming", NIK: "3372093912800", PhoneNumber: "081237123684"},
@@ -31,7 +31,7 @@ func SeedCustomer(db *gorm.DB) {
 		{Name: "Vanessa Patton", NIK: "3372093913434", PhoneNumber: "081237123701"},
 	}
 
-	for _, customer := range customers {
+	for _, customer := range customer {
 		var existingCustomer models.Customer
 		if err := db.Where("nik = ?", customer.NIK).First(&existingCustomer).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {

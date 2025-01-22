@@ -53,27 +53,18 @@ func ConnectDatabase() *gorm.DB {
 		db = dbGorm
 	}
 
-	// if db != nil {
-	// 	return db
-	// }
-
-	err := db.AutoMigrate(
+	db.AutoMigrate(
 		&models.Customer{},
 		&models.Cars{},
 		&models.Booking{},
 	)
-	if err != nil {
-		log.Fatal("Failed to migrate database:", err)
-	}
-
-	// seeders.SeedCustomer(db)
 
 	var count int64
 	db.Model(&models.Customer{}).Count(&count)
 	if count == 0 {
 		seeders.SeedCustomer(db)
 	} else {
-		log.Println("Data already exists in the customers table. Seeder will not run.")
+		log.Println("Data already exists in the customer table. Seeder will not run.")
 	}
 
 	return db

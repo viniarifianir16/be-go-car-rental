@@ -15,45 +15,45 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/customers": {
+        "/customer": {
             "get": {
-                "description": "Get a list of customers.",
+                "description": "Get a list of customer.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Customers"
+                    "Customer"
                 ],
-                "summary": "Get All Customers.",
+                "summary": "Get All Customer.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Customers"
+                                "$ref": "#/definitions/models.Customer"
                             }
                         }
                     }
                 }
             },
             "post": {
-                "description": "Create a new customers.",
+                "description": "Create a new customer.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Customers"
+                    "Customer"
                 ],
-                "summary": "Create New Customers.",
+                "summary": "Create New Customer.",
                 "parameters": [
                     {
-                        "description": "The body to create a new Customers",
+                        "description": "The body to create a new Customer",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.customersInput"
+                            "$ref": "#/definitions/controllers.customerInput"
                         }
                     }
                 ],
@@ -61,26 +61,26 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Customers"
+                            "$ref": "#/definitions/models.Customer"
                         }
                     }
                 }
             }
         },
-        "/customers/{id}": {
+        "/customer/{id}": {
             "delete": {
-                "description": "Delete a customers by id.",
+                "description": "Delete a customer by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Customers"
+                    "Customer"
                 ],
-                "summary": "Delete one customers.",
+                "summary": "Delete one customer.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Customers ID",
+                        "description": "Customer ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -99,29 +99,29 @@ const docTemplate = `{
                 }
             },
             "patch": {
-                "description": "Update customers by id.",
+                "description": "Update customer by id.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Customers"
+                    "Customer"
                 ],
-                "summary": "Update Customers.",
+                "summary": "Update Customer.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Customers ID",
+                        "description": "Customer ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "The body to update an Customers",
+                        "description": "The body to update an Customer",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.customersInput"
+                            "$ref": "#/definitions/controllers.customerInput"
                         }
                     }
                 ],
@@ -129,7 +129,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Customers"
+                            "$ref": "#/definitions/models.Customer"
                         }
                     }
                 }
@@ -137,7 +137,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "controllers.customersInput": {
+        "controllers.customerInput": {
             "type": "object",
             "required": [
                 "name",
@@ -156,7 +156,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Customers": {
+        "models.Customer": {
             "type": "object",
             "properties": {
                 "created_at": {
