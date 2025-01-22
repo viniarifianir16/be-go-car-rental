@@ -1,0 +1,112 @@
+definitions:
+  controller.customersInput:
+    properties:
+      name:
+        type: string
+      nik:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - name
+    - nik
+    - phone_number
+    type: object
+  models.Customers:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      nik:
+        type: string
+      phone_number:
+        type: string
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /customers:
+    get:
+      description: Get a list of customers.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Customers'
+            type: array
+      summary: Get All Customers.
+      tags:
+      - Customers
+    post:
+      description: Create a new customers.
+      parameters:
+      - description: The body to create a new Customers
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.customersInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customers'
+      summary: Create New Customers.
+      tags:
+      - Customers
+  /customers/{id}:
+    delete:
+      description: Delete a customers by id.
+      parameters:
+      - description: Customers ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete one customers.
+      tags:
+      - Customers
+    patch:
+      description: Update customers by id.
+      parameters:
+      - description: Customers ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The body to update an Customers
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controller.customersInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customers'
+      summary: Update Customers.
+      tags:
+      - Customers
+swagger: "2.0"

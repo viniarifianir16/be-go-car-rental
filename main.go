@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"be-go-car-rental/api"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	api.App.Run()
 }
