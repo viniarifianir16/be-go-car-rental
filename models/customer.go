@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Customers struct {
+type Customer struct {
 	ID          uint      `json:"id" gorm:"primaryKey;autoIncrement"`
 	Name        string    `json:"name"`
 	NIK         string    `json:"nik" gorm:"unique"`

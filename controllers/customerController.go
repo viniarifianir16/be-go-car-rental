@@ -14,16 +14,16 @@ type customersInput struct {
 	PhoneNumber string `json:"phone_number" binding:"required"`
 }
 
-// GetAllCustomers godoc
-// @Summary Get All Customers.
+// GetAllCustomer godoc
+// @Summary Get All Customer.
 // @Description Get a list of customers.
-// @Tags Customers
+// @Tags Customer
 // @Produce json
-// @Success 200 {object} []models.Customers
+// @Success 200 {object} []models.Customer
 // @Router /customers [get]
-func GetAllCustomers(c *gin.Context) {
+func GetAllCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var customers []models.Customers
+	var customers []models.Customer
 	if err := db.Find(&customers).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -31,17 +31,17 @@ func GetAllCustomers(c *gin.Context) {
 	c.JSON(http.StatusOK, customers)
 }
 
-// CreateCustomers godoc
-// @Summary Create New Customers.
+// CreateCustomer godoc
+// @Summary Create New Customer.
 // @Description Create a new customers.
-// @Tags Customers
-// @Param Body body customersInput true "The body to create a new Customers"
+// @Tags Customer
+// @Param Body body customersInput true "The body to create a new Customer"
 // @Produce json
-// @Success 200 {object} models.Customers
+// @Success 200 {object} models.Customer
 // @Router /customers [post]
-func CreateCustomers(c *gin.Context) {
+func CreateCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var customers models.Customers
+	var customers models.Customer
 
 	var input customersInput
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -49,7 +49,7 @@ func CreateCustomers(c *gin.Context) {
 		return
 	}
 
-	customers = models.Customers{
+	customers = models.Customer{
 		Name:        input.Name,
 		NIK:         input.NIK,
 		PhoneNumber: input.PhoneNumber,
@@ -63,19 +63,19 @@ func CreateCustomers(c *gin.Context) {
 	c.JSON(http.StatusCreated, customers)
 }
 
-// UpdateCustomers godoc
-// @Summary Update Customers.
+// UpdateCustomer godoc
+// @Summary Update Customer.
 // @Description Update customers by id.
-// @Tags Customers
-// @Param id path string true "Customers ID"
-// @Param Body body customersInput true "The body to update an Customers"
+// @Tags Customer
+// @Param id path string true "Customer ID"
+// @Param Body body customersInput true "The body to update an Customer"
 // @Produce json
-// @Success 200 {object} models.Customers
+// @Success 200 {object} models.Customer
 // @Router /customers/{id} [patch]
-func UpdateCustomers(c *gin.Context) {
+func UpdateCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	id := c.Param("id")
-	var customers models.Customers
+	var customers models.Customer
 	var input customersInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -84,7 +84,7 @@ func UpdateCustomers(c *gin.Context) {
 	}
 
 	if err := db.First(&customers, id).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Customers not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Customer not found"})
 		return
 	}
 
@@ -100,22 +100,22 @@ func UpdateCustomers(c *gin.Context) {
 	c.JSON(http.StatusOK, customers)
 }
 
-// DeleteCustomers godoc
+// DeleteCustomer godoc
 // @Summary Delete one customers.
 // @Description Delete a customers by id.
-// @Tags Customers
-// @Param id path string true "Customers ID"
+// @Tags Customer
+// @Param id path string true "Customer ID"
 // @Produce json
 // @Success 200 {object} map[string]boolean
 // @Router /customers/{id} [delete]
-func DeleteCustomers(c *gin.Context) {
+func DeleteCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	id := c.Param("id")
 
-	if err := db.Delete(&models.Customers{}, id).Error; err != nil {
+	if err := db.Delete(&models.Customer{}, id).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Customers deleted succesfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "Customer deleted succesfully"})
 }

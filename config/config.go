@@ -58,7 +58,7 @@ func ConnectDatabase() *gorm.DB {
 	// }
 
 	err := db.AutoMigrate(
-		&models.Customers{},
+		&models.Customer{},
 		&models.Cars{},
 		&models.Booking{},
 	)
@@ -69,7 +69,7 @@ func ConnectDatabase() *gorm.DB {
 	// seeders.SeedCustomer(db)
 
 	var count int64
-	db.Model(&models.Customers{}).Count(&count)
+	db.Model(&models.Customer{}).Count(&count)
 	if count == 0 {
 		seeders.SeedCustomer(db)
 	} else {
