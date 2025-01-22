@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"be-go-car-rental/controller"
+	"be-go-car-rental/controllers"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -16,10 +16,10 @@ func SetupRouter(db *gorm.DB, r *gin.Engine) {
 	})
 
 	// Customers Router
-	r.GET("/customers", controller.GetAllCustomers)
-	r.POST("/customers", controller.CreateCustomers)
-	r.PATCH("/customers/:id", controller.UpdateCustomers)
-	r.DELETE("/customers/:id", controller.DeleteCustomers)
+	r.GET("/customers", controllers.GetAllCustomers)
+	r.POST("/customers", controllers.CreateCustomers)
+	r.PATCH("/customers/:id", controllers.UpdateCustomers)
+	r.DELETE("/customers/:id", controllers.DeleteCustomers)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

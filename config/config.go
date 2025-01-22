@@ -2,6 +2,7 @@ package config
 
 import (
 	"be-go-car-rental/models"
+	"be-go-car-rental/seeders"
 	"fmt"
 	"log"
 	"os"
@@ -52,11 +53,28 @@ func ConnectDatabase() *gorm.DB {
 		db = dbGorm
 	}
 
-	db.AutoMigrate(
+	// if db != nil {
+	// 	return db
+	// }
+
+	err := db.AutoMigrate(
 		&models.Customers{},
 		&models.Cars{},
 		&models.Booking{},
 	)
+	if err != nil {
+		log.Fatal("Failed to migrate database:", err)
+	}
+
+	// seeders.SeedCustomer(db)
+
+	var count int64
+	db.Model(&models.Customers{}).Count(&count)
+	if count == 0 {
+		seeders.SeedCustomer(db)
+	} else {
+		log.Println("Data already exists in the customers table. Seeder will not run.")
+	}
 
 	return db
 }

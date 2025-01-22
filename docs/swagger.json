@@ -42,7 +42,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controller.customersInput"
+                            "$ref": "#/definitions/controllers.customersInput"
                         }
                     }
                 ],
@@ -110,7 +110,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controller.customersInput"
+                            "$ref": "#/definitions/controllers.customersInput"
                         }
                     }
                 ],
@@ -126,7 +126,7 @@
         }
     },
     "definitions": {
-        "controller.customersInput": {
+        "controllers.customersInput": {
             "type": "object",
             "required": [
                 "name",

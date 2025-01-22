@@ -53,7 +53,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controller.customersInput"
+                            "$ref": "#/definitions/controllers.customersInput"
                         }
                     }
                 ],
@@ -121,7 +121,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controller.customersInput"
+                            "$ref": "#/definitions/controllers.customersInput"
                         }
                     }
                 ],
@@ -137,7 +137,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "controller.customersInput": {
+        "controllers.customersInput": {
             "type": "object",
             "required": [
                 "name",

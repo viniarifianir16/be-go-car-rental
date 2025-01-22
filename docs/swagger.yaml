@@ -1,5 +1,5 @@
 definitions:
-  controller.customersInput:
+  controllers.customersInput:
     properties:
       name:
         type: string
@@ -53,7 +53,7 @@ paths:
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controller.customersInput'
+          $ref: '#/definitions/controllers.customersInput'
       produces:
       - application/json
       responses:
@@ -98,7 +98,7 @@ paths:
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/controller.customersInput'
+          $ref: '#/definitions/controllers.customersInput'
       produces:
       - application/json
       responses:
