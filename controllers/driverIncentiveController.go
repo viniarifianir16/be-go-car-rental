@@ -25,7 +25,7 @@ func GetAllDriverIncentive(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var driverIncentive []models.DriverIncentive
 
-	if err := db.Preload("Booking").Find(&driverIncentive).Error; err != nil {
+	if err := db.Find(&driverIncentive).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
