@@ -2,6 +2,7 @@ package config
 
 import (
 	"be-go-car-rental/models"
+	"be-go-car-rental/seeders"
 	"fmt"
 	"log"
 	"os"
@@ -59,55 +60,56 @@ func ConnectDatabase() *gorm.DB {
 		db = dbGorm
 	}
 
-	err := db.AutoMigrate(
-		&models.Customer{},
-		&models.Cars{},
-		&models.Booking{},
-		&models.Membership{},
-		&models.BookingType{},
-		&models.Driver{},
-		&models.DriverIncentive{},
-	)
-	if err != nil {
-		log.Fatal("Failed to migrate database:", err)
+	environment := os.Getenv("ENVIRONMENT")
+	if environment == "local" {
+		err := db.AutoMigrate(
+			&models.Customer{},
+			&models.Cars{},
+			&models.Booking{},
+			&models.Membership{},
+			&models.BookingType{},
+			&models.Driver{},
+			&models.DriverIncentive{},
+		)
+		if err != nil {
+			log.Fatal("Failed to migrate database:", err)
+		}
+
+		log.Println("Running seeders in local environment...")
+
+		var customerCount int64
+		db.Model(&models.Customer{}).Count(&customerCount)
+		if customerCount == 0 {
+			seeders.SeedCustomer(db)
+		}
+
+		var carCount int64
+		db.Model(&models.Cars{}).Count(&carCount)
+		if carCount == 0 {
+			seeders.SeedCars(db)
+		}
+
+		var membershipCount int64
+		db.Model(&models.Membership{}).Count(&membershipCount)
+		if membershipCount == 0 {
+			seeders.SeedMembership(db)
+		}
+
+		var bookingTypeCount int64
+		db.Model(&models.BookingType{}).Count(&bookingTypeCount)
+		if bookingTypeCount == 0 {
+			seeders.SeedBookingType(db)
+		}
+
+		var driver int64
+		db.Model(&models.Driver{}).Count(&driver)
+		if driver == 0 {
+			seeders.SeedDriver(db)
+		}
+	} else {
+		log.Println("Skipping seeders in production environment.")
 	}
 
-	// environment := os.Getenv("ENVIRONMENT")
-	// if environment == "local" {
-	// 	log.Println("Running seeders in local environment...")
-
-	// 	var customerCount int64
-	// 	db.Model(&models.Customer{}).Count(&customerCount)
-	// 	if customerCount == 0 {
-	// 		seeders.SeedCustomer(db)
-	// 	}
-
-	// 	var carCount int64
-	// 	db.Model(&models.Cars{}).Count(&carCount)
-	// 	if carCount == 0 {
-	// 		seeders.SeedCars(db)
-	// 	}
-
-	// 	var membershipCount int64
-	// 	db.Model(&models.Membership{}).Count(&membershipCount)
-	// 	if membershipCount == 0 {
-	// 		seeders.SeedMembership(db)
-	// 	}
-
-	// 	var bookingTypeCount int64
-	// 	db.Model(&models.BookingType{}).Count(&bookingTypeCount)
-	// 	if bookingTypeCount == 0 {
-	// 		seeders.SeedBookingType(db)
-	// 	}
-
-	// 	var driver int64
-	// 	db.Model(&models.Driver{}).Count(&driver)
-	// 	if driver == 0 {
-	// 		seeders.SeedDriver(db)
-	// 	}
-	// } else {
-	// 	log.Println("Skipping seeders in production environment.")
-	// }
 	return db
 }
 
