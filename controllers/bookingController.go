@@ -144,7 +144,9 @@ func CreateBooking(c *gin.Context) {
 		return
 	}
 
-	daysOfRent := int(booking.EndRent.Truncate(24*time.Hour).Sub(booking.StartRent.Truncate(24*time.Hour)).Hours()/24) + 1 // Jumlah hari sewa
+	// Jumlah hari sewa
+	daysOfRent := int(booking.EndRent.Truncate(24*time.Hour).Sub(booking.StartRent.Truncate(24*time.Hour)).Hours()/24) + 1
+
 	dailyCarRent := int(booking.Cars.DailyRent)
 	membershipDiscount := int(booking.Customer.Membership.Discount) / 100
 
@@ -214,7 +216,9 @@ func UpdateBooking(c *gin.Context) {
 		return
 	}
 
-	daysOfRent := int(booking.EndRent.Truncate(24*time.Hour).Sub(booking.StartRent.Truncate(24*time.Hour)).Hours()/24) + 1 // Jumlah hari sewa
+	// Jumlah hari sewa
+	daysOfRent := int(booking.EndRent.Truncate(24*time.Hour).Sub(booking.StartRent.Truncate(24*time.Hour)).Hours()/24) + 1
+
 	dailyCarRent := int(booking.Cars.DailyRent)
 	membershipDiscount := int(booking.Customer.Membership.Discount) / 100
 
