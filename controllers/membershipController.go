@@ -30,6 +30,26 @@ func GetAllMembership(c *gin.Context) {
 	c.JSON(http.StatusOK, membership)
 }
 
+// GetMembershipById godoc
+// @Summary Get Membership by ID.
+// @Description Get a Membership by ID.
+// @Tags Membership
+// @Produce json
+// @Param id path string true "id"
+// @Success 200 {object} models.Membership
+// @Router /membership/{id} [get]
+func GetMembershipByID(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var membership models.Membership
+
+	if err := db.Where("id = ?", c.Param("id")).First(&membership).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, membership)
+}
+
 // CreateMembership godoc
 // @Summary Create New Membership.
 // @Description Create a new Membership.

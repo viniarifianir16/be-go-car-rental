@@ -1,9 +1,13 @@
 definitions:
   controllers.bookingInput:
     properties:
+      booking_type_id:
+        type: integer
       cars_id:
         type: integer
       customer_id:
+        type: integer
+      driver_id:
         type: integer
       end_rent:
         type: string
@@ -11,14 +15,12 @@ definitions:
         type: boolean
       start_rent:
         type: string
-      total_cost:
-        type: integer
     required:
+    - booking_type_id
     - cars_id
     - customer_id
     - end_rent
     - start_rent
-    - total_cost
     type: object
   controllers.bookingTypeInput:
     properties:
@@ -68,6 +70,22 @@ definitions:
     - booking_id
     - incentive
     type: object
+  controllers.driverInput:
+    properties:
+      daily_cost:
+        type: integer
+      name:
+        type: string
+      nik:
+        type: integer
+      phone_number:
+        type: string
+    required:
+    - daily_cost
+    - name
+    - nik
+    - phone_number
+    type: object
   controllers.membershipInput:
     properties:
       discount:
@@ -94,6 +112,10 @@ definitions:
         $ref: '#/definitions/models.Customer'
       customer_id:
         type: integer
+      discount:
+        type: integer
+      driver:
+        $ref: '#/definitions/models.Driver'
       driver_id:
         type: integer
       end_rent:
@@ -105,6 +127,8 @@ definitions:
       start_rent:
         type: string
       total_cost:
+        type: integer
+      total_driver_cost:
         type: integer
       updated_at:
         type: string
@@ -161,6 +185,27 @@ definitions:
       membership:
         $ref: '#/definitions/models.Membership'
       membership_id:
+        type: integer
+      name:
+        type: string
+      nik:
+        type: integer
+      phone_number:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - name
+    - nik
+    - phone_number
+    type: object
+  models.Driver:
+    properties:
+      created_at:
+        type: string
+      daily_cost:
+        type: integer
+      id:
         type: integer
       name:
         type: string
@@ -309,9 +354,9 @@ paths:
       summary: Update Booking.
       tags:
       - Booking
-  /booking/{id}/discount:
+  /booking/{id}/detail:
     get:
-      description: Get a Booking by ID with Discount.
+      description: Get a Booking by ID with Detail.
       parameters:
       - description: id
         in: path
@@ -325,22 +370,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Booking'
-      summary: Get Booking by ID with Discount.
-      tags:
-      - Booking
-  /booking/discount:
-    get:
-      description: Get a list of Booking with Discount.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Booking'
-            type: array
-      summary: Get All Booking With Discount.
+      summary: Get Booking by ID with Detail.
       tags:
       - Booking
   /bookingtype:
@@ -396,6 +426,24 @@ paths:
               type: boolean
             type: object
       summary: Delete one Booking Type.
+      tags:
+      - Booking Type
+    get:
+      description: Get a Booking Type by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BookingType'
+      summary: Get Booking Type by ID.
       tags:
       - Booking Type
     patch:
@@ -477,6 +525,24 @@ paths:
       summary: Delete one cars.
       tags:
       - Cars
+    get:
+      description: Get a Cars by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Cars'
+      summary: Get Cars by ID.
+      tags:
+      - Cars
     patch:
       description: Update Cars by id.
       parameters:
@@ -556,6 +622,24 @@ paths:
       summary: Delete one customer.
       tags:
       - Customer
+    get:
+      description: Get a Customer by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customer'
+      summary: Get Customer by ID.
+      tags:
+      - Customer
     patch:
       description: Update Customer by id.
       parameters:
@@ -580,6 +664,103 @@ paths:
       summary: Update Customer.
       tags:
       - Customer
+  /driver:
+    get:
+      description: Get a list of Driver.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Driver'
+            type: array
+      summary: Get All Driver.
+      tags:
+      - Driver
+    post:
+      description: Create a new Driver.
+      parameters:
+      - description: The body to create a new Driver
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.driverInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Driver'
+      summary: Create New Driver.
+      tags:
+      - Driver
+  /driver/{id}:
+    delete:
+      description: Delete a Driver by id.
+      parameters:
+      - description: Driver ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete one driver.
+      tags:
+      - Driver
+    get:
+      description: Get a Driver by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Driver'
+      summary: Get Driver by ID.
+      tags:
+      - Driver
+    patch:
+      description: Update Driver by id.
+      parameters:
+      - description: Driver ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The body to update an Driver
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.driverInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Driver'
+      summary: Update Driver.
+      tags:
+      - Driver
   /driverincentive:
     get:
       description: Get a list of Driver Incentive.
@@ -633,6 +814,24 @@ paths:
               type: boolean
             type: object
       summary: Delete one Driver Incentive.
+      tags:
+      - Driver Incentive
+    get:
+      description: Get a Driver by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Driver'
+      summary: Get Driver by ID.
       tags:
       - Driver Incentive
     patch:
@@ -712,6 +911,24 @@ paths:
               type: boolean
             type: object
       summary: Delete one Membership.
+      tags:
+      - Membership
+    get:
+      description: Get a Membership by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Membership'
+      summary: Get Membership by ID.
       tags:
       - Membership
     patch:

@@ -3,6 +3,7 @@ package controllers
 import (
 	"be-go-car-rental/models"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -23,11 +24,33 @@ type driverIncentiveInput struct {
 func GetAllDriverIncentive(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var driverIncentive []models.DriverIncentive
+
 	if err := db.Preload("Booking").Find(&driverIncentive).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, driverIncentive)
+}
+
+// GetDriverById godoc
+// @Summary Get Driver by ID.
+// @Description Get a Driver by ID.
+// @Tags Driver Incentive
+// @Produce json
+// @Param id path string true "id"
+// @Success 200 {object} models.Driver
+// @Router /driverincentive/{id} [get]
+func GetDriverIncentiveByID(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var driver models.Driver
+
+	if err := db.Where("id = ?", c.Param("id")).First(&driver).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, driver)
 }
 
 // CreateDriverIncentive godoc
@@ -48,15 +71,22 @@ func CreateDriverIncentive(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	// cek id
 	if err := db.Where("id = ?", input.BookingID).First(&booking).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "booking_id not found!"})
 		return
 	}
 
+	daysOfRent := int(booking.EndRent.Truncate(24*time.Hour).Sub(booking.StartRent.Truncate(24*time.Hour)).Hours()/24) + 1 // Jumlah hari sewa
+	dailyCarRent := int(booking.Cars.DailyRent)
+
+	// Incentive per Booking = ( Days_of_Rent * Daily_car_Rent ) * 5%
+	IncentivePerBooking := (daysOfRent * dailyCarRent) * 5 / 100
+
 	driverIncentive = models.DriverIncentive{
 		BookingID: input.BookingID,
-		Incentive: input.Incentive,
+		Incentive: uint(IncentivePerBooking),
 	}
 
 	if err := db.Create(&driverIncentive).Error; err != nil {
@@ -79,7 +109,9 @@ func CreateDriverIncentive(c *gin.Context) {
 func UpdateDriverIncentive(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	id := c.Param("id")
+
 	var driverIncentive models.DriverIncentive
+	var booking models.Booking
 	var input driverIncentiveInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -92,8 +124,14 @@ func UpdateDriverIncentive(c *gin.Context) {
 		return
 	}
 
+	daysOfRent := int(booking.EndRent.Truncate(24*time.Hour).Sub(booking.StartRent.Truncate(24*time.Hour)).Hours()/24) + 1 // Jumlah hari sewa
+	dailyCarRent := int(booking.Cars.DailyRent)
+
+	// Incentive per Booking = ( Days_of_Rent * Daily_car_Rent ) * 5%
+	IncentivePerBooking := (daysOfRent * dailyCarRent) * 5 / 100
+
 	driverIncentive.BookingID = input.BookingID
-	driverIncentive.Incentive = input.Incentive
+	driverIncentive.Incentive = uint(IncentivePerBooking)
 
 	if err := db.Save(&driverIncentive).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

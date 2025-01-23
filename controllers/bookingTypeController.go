@@ -30,6 +30,26 @@ func GetAllBookingType(c *gin.Context) {
 	c.JSON(http.StatusOK, bookingType)
 }
 
+// GetBookingTypeById godoc
+// @Summary Get Booking Type by ID.
+// @Description Get a Booking Type by ID.
+// @Tags Booking Type
+// @Produce json
+// @Param id path string true "id"
+// @Success 200 {object} models.BookingType
+// @Router /bookingtype/{id} [get]
+func GetBookingTypeByID(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var bookingType models.BookingType
+
+	if err := db.Where("id = ?", c.Param("id")).First(&bookingType).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, bookingType)
+}
+
 // CreateBookingType godoc
 // @Summary Create New Booking Type.
 // @Description Create a new Booking Type.

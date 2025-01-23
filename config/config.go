@@ -115,12 +115,6 @@ func ConnectDatabase() *gorm.DB {
 		seeders.SeedDriver(db)
 	}
 
-	var driverIncentive int64
-	db.Model(&models.DriverIncentive{}).Count(&driverIncentive)
-	if driverIncentive == 0 {
-		seeders.SeedDriverIncentive(db)
-	}
-
 	return db
 }
 

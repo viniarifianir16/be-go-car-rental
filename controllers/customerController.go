@@ -32,6 +32,26 @@ func GetAllCustomer(c *gin.Context) {
 	c.JSON(http.StatusOK, customer)
 }
 
+// GetCustomerById godoc
+// @Summary Get Customer by ID.
+// @Description Get a Customer by ID.
+// @Tags Customer
+// @Produce json
+// @Param id path string true "id"
+// @Success 200 {object} models.Customer
+// @Router /customer/{id} [get]
+func GetCustomerbyID(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var customer models.Customer
+
+	if err := db.Where("id = ?", c.Param("id")).First(&customer).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, customer)
+}
+
 // CreateCustomer godoc
 // @Summary Create New Customer.
 // @Description Create a new Customer.

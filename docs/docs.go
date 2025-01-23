@@ -67,29 +67,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/booking/discount": {
-            "get": {
-                "description": "Get a list of Booking with Discount.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Booking"
-                ],
-                "summary": "Get All Booking With Discount.",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Booking"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/booking/{id}": {
             "get": {
                 "description": "Get a Booking by ID.",
@@ -185,16 +162,16 @@ const docTemplate = `{
                 }
             }
         },
-        "/booking/{id}/discount": {
+        "/booking/{id}/detail": {
             "get": {
-                "description": "Get a Booking by ID with Discount.",
+                "description": "Get a Booking by ID with Detail.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Booking"
                 ],
-                "summary": "Get Booking by ID with Discount.",
+                "summary": "Get Booking by ID with Detail.",
                 "parameters": [
                     {
                         "type": "string",
@@ -267,6 +244,33 @@ const docTemplate = `{
             }
         },
         "/bookingtype/{id}": {
+            "get": {
+                "description": "Get a Booking Type by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking Type"
+                ],
+                "summary": "Get Booking Type by ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BookingType"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a Booking Type by id.",
                 "produces": [
@@ -387,6 +391,33 @@ const docTemplate = `{
             }
         },
         "/cars/{id}": {
+            "get": {
+                "description": "Get a Cars by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Get Cars by ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Cars"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a Cars by id.",
                 "produces": [
@@ -507,6 +538,33 @@ const docTemplate = `{
             }
         },
         "/customer/{id}": {
+            "get": {
+                "description": "Get a Customer by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get Customer by ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Customer"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a Customer by id.",
                 "produces": [
@@ -574,6 +632,153 @@ const docTemplate = `{
                 }
             }
         },
+        "/driver": {
+            "get": {
+                "description": "Get a list of Driver.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Get All Driver.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Driver"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new Driver.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Create New Driver.",
+                "parameters": [
+                    {
+                        "description": "The body to create a new Driver",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.driverInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Driver"
+                        }
+                    }
+                }
+            }
+        },
+        "/driver/{id}": {
+            "get": {
+                "description": "Get a Driver by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Get Driver by ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Driver"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a Driver by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Delete one driver.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Driver ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Driver by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Update Driver.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Driver ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "The body to update an Driver",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.driverInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Driver"
+                        }
+                    }
+                }
+            }
+        },
         "/driverincentive": {
             "get": {
                 "description": "Get a list of Driver Incentive.",
@@ -627,6 +832,33 @@ const docTemplate = `{
             }
         },
         "/driverincentive/{id}": {
+            "get": {
+                "description": "Get a Driver by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver Incentive"
+                ],
+                "summary": "Get Driver by ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Driver"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a Driver Incentive by id.",
                 "produces": [
@@ -747,6 +979,33 @@ const docTemplate = `{
             }
         },
         "/membership/{id}": {
+            "get": {
+                "description": "Get a Membership by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Membership"
+                ],
+                "summary": "Get Membership by ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Membership"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a Membership by id.",
                 "produces": [
@@ -819,17 +1078,23 @@ const docTemplate = `{
         "controllers.bookingInput": {
             "type": "object",
             "required": [
+                "booking_type_id",
                 "cars_id",
                 "customer_id",
                 "end_rent",
-                "start_rent",
-                "total_cost"
+                "start_rent"
             ],
             "properties": {
+                "booking_type_id": {
+                    "type": "integer"
+                },
                 "cars_id": {
                     "type": "integer"
                 },
                 "customer_id": {
+                    "type": "integer"
+                },
+                "driver_id": {
                     "type": "integer"
                 },
                 "end_rent": {
@@ -840,9 +1105,6 @@ const docTemplate = `{
                 },
                 "start_rent": {
                     "type": "string"
-                },
-                "total_cost": {
-                    "type": "integer"
                 }
             }
         },
@@ -917,6 +1179,29 @@ const docTemplate = `{
                 }
             }
         },
+        "controllers.driverInput": {
+            "type": "object",
+            "required": [
+                "daily_cost",
+                "name",
+                "nik",
+                "phone_number"
+            ],
+            "properties": {
+                "daily_cost": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "integer"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
         "controllers.membershipInput": {
             "type": "object",
             "required": [
@@ -965,6 +1250,12 @@ const docTemplate = `{
                 "customer_id": {
                     "type": "integer"
                 },
+                "discount": {
+                    "type": "integer"
+                },
+                "driver": {
+                    "$ref": "#/definitions/models.Driver"
+                },
                 "driver_id": {
                     "type": "integer"
                 },
@@ -981,6 +1272,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "total_cost": {
+                    "type": "integer"
+                },
+                "total_driver_cost": {
                     "type": "integer"
                 },
                 "updated_at": {
@@ -1058,6 +1352,37 @@ const docTemplate = `{
                     "$ref": "#/definitions/models.Membership"
                 },
                 "membership_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "integer"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Driver": {
+            "type": "object",
+            "required": [
+                "name",
+                "nik",
+                "phone_number"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "daily_cost": {
+                    "type": "integer"
+                },
+                "id": {
                     "type": "integer"
                 },
                 "name": {

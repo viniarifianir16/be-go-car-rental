@@ -31,6 +31,26 @@ func GetAllCars(c *gin.Context) {
 	c.JSON(http.StatusOK, cars)
 }
 
+// GetCarsById godoc
+// @Summary Get Cars by ID.
+// @Description Get a Cars by ID.
+// @Tags Cars
+// @Produce json
+// @Param id path string true "id"
+// @Success 200 {object} models.Cars
+// @Router /cars/{id} [get]
+func GetCarsByID(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var cars models.Cars
+
+	if err := db.Where("id = ?", c.Param("id")).First(&cars).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, cars)
+}
+
 // CreateCars godoc
 // @Summary Create New Cars.
 // @Description Create a new Cars.

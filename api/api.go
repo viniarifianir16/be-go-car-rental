@@ -30,8 +30,8 @@ func init() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	docs.SwaggerInfo.Title = "Car Rental REST API"
-	docs.SwaggerInfo.Description = "This is REST API Car Rental."
+	docs.SwaggerInfo.Title = "Car Rental API"
+	docs.SwaggerInfo.Description = "This is API Car Rental."
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.Host = GetEnvOrDefault("HOST", "localhost:8080")
 	if environment == "development" {
