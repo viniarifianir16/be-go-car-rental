@@ -20,7 +20,6 @@ func init() {
 	App = gin.New()
 
 	environment := GetEnvOrDefault("ENVIRONMENT", "development")
-
 	if environment == "development" {
 		err := godotenv.Load()
 		if err != nil {
@@ -28,6 +27,13 @@ func init() {
 		}
 	} else {
 		gin.SetMode(gin.ReleaseMode)
+	}
+
+	mode := os.Getenv("GIN_MODE")
+	if mode == "release" {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		log.Println("[INFO] Running in debug mode")
 	}
 
 	docs.SwaggerInfo.Title = "Car Rental API"
