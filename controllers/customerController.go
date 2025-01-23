@@ -9,14 +9,15 @@ import (
 )
 
 type customerInput struct {
-	Name        string `json:"name" binding:"required"`
-	NIK         string `json:"nik" binding:"required"`
-	PhoneNumber string `json:"phone_number" binding:"required"`
+	MembershipID uint   `json:"membership_id"`
+	Name         string `json:"name" binding:"required"`
+	NIK          uint   `json:"nik" binding:"required"`
+	PhoneNumber  string `json:"phone_number" binding:"required"`
 }
 
 // GetAllCustomer godoc
 // @Summary Get All Customer.
-// @Description Get a list of customer.
+// @Description Get a list of Customer.
 // @Tags Customer
 // @Produce json
 // @Success 200 {object} []models.Customer
@@ -33,7 +34,7 @@ func GetAllCustomer(c *gin.Context) {
 
 // CreateCustomer godoc
 // @Summary Create New Customer.
-// @Description Create a new customer.
+// @Description Create a new Customer.
 // @Tags Customer
 // @Param Body body customerInput true "The body to create a new Customer"
 // @Produce json
@@ -50,9 +51,10 @@ func CreateCustomer(c *gin.Context) {
 	}
 
 	customer = models.Customer{
-		Name:        input.Name,
-		NIK:         input.NIK,
-		PhoneNumber: input.PhoneNumber,
+		MembershipID: input.MembershipID,
+		Name:         input.Name,
+		NIK:          input.NIK,
+		PhoneNumber:  input.PhoneNumber,
 	}
 
 	if err := db.Create(&customer).Error; err != nil {
@@ -65,7 +67,7 @@ func CreateCustomer(c *gin.Context) {
 
 // UpdateCustomer godoc
 // @Summary Update Customer.
-// @Description Update customer by id.
+// @Description Update Customer by id.
 // @Tags Customer
 // @Param id path string true "Customer ID"
 // @Param Body body customerInput true "The body to update an Customer"
@@ -88,6 +90,7 @@ func UpdateCustomer(c *gin.Context) {
 		return
 	}
 
+	customer.MembershipID = input.MembershipID
 	customer.Name = input.Name
 	customer.NIK = input.NIK
 	customer.PhoneNumber = input.PhoneNumber
@@ -102,7 +105,7 @@ func UpdateCustomer(c *gin.Context) {
 
 // DeleteCustomer godoc
 // @Summary Delete one customer.
-// @Description Delete a customer by id.
+// @Description Delete a Customer by id.
 // @Tags Customer
 // @Param id path string true "Customer ID"
 // @Produce json

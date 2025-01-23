@@ -76,6 +76,10 @@ func ConnectDatabase() *gorm.DB {
 		&models.Customer{},
 		&models.Cars{},
 		&models.Booking{},
+		&models.Membership{},
+		&models.BookingType{},
+		&models.Driver{},
+		&models.DriverIncentive{},
 	)
 	if err != nil {
 		log.Fatal("Failed to migrate database:", err)
@@ -91,6 +95,30 @@ func ConnectDatabase() *gorm.DB {
 	db.Model(&models.Cars{}).Count(&carCount)
 	if carCount == 0 {
 		seeders.SeedCars(db)
+	}
+
+	var membershipCount int64
+	db.Model(&models.Membership{}).Count(&membershipCount)
+	if membershipCount == 0 {
+		seeders.SeedMembership(db)
+	}
+
+	var bookingTypeCount int64
+	db.Model(&models.BookingType{}).Count(&bookingTypeCount)
+	if bookingTypeCount == 0 {
+		seeders.SeedBookingType(db)
+	}
+
+	var driver int64
+	db.Model(&models.Driver{}).Count(&driver)
+	if driver == 0 {
+		seeders.SeedDriver(db)
+	}
+
+	var driverIncentive int64
+	db.Model(&models.DriverIncentive{}).Count(&driverIncentive)
+	if driverIncentive == 0 {
+		seeders.SeedDriverIncentive(db)
 	}
 
 	return db

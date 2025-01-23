@@ -6,7 +6,7 @@
     "paths": {
         "/booking": {
             "get": {
-                "description": "Get a list of booking.",
+                "description": "Get a list of Booking.",
                 "produces": [
                     "application/json"
                 ],
@@ -27,7 +27,7 @@
                 }
             },
             "post": {
-                "description": "Create a new booking.",
+                "description": "Create a new Booking.",
                 "produces": [
                     "application/json"
                 ],
@@ -56,16 +56,66 @@
                 }
             }
         },
-        "/booking/{id}": {
-            "delete": {
-                "description": "Delete a booking by id.",
+        "/booking/discount": {
+            "get": {
+                "description": "Get a list of Booking with Discount.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Booking"
                 ],
-                "summary": "Delete one booking.",
+                "summary": "Get All Booking With Discount.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Booking"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/booking/{id}": {
+            "get": {
+                "description": "Get a Booking by ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Get Booking by ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a Booking by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Delete one Booking.",
                 "parameters": [
                     {
                         "type": "string",
@@ -88,7 +138,7 @@
                 }
             },
             "patch": {
-                "description": "Update booking by id.",
+                "description": "Update Booking by id.",
                 "produces": [
                     "application/json"
                 ],
@@ -124,9 +174,158 @@
                 }
             }
         },
+        "/booking/{id}/discount": {
+            "get": {
+                "description": "Get a Booking by ID with Discount.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Get Booking by ID with Discount.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Booking"
+                        }
+                    }
+                }
+            }
+        },
+        "/bookingtype": {
+            "get": {
+                "description": "Get a list of Booking Type.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking Type"
+                ],
+                "summary": "Get All Booking Type.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.BookingType"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new Booking Type.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking Type"
+                ],
+                "summary": "Create New Booking Type.",
+                "parameters": [
+                    {
+                        "description": "The body to create a new Booking Type",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.bookingTypeInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BookingType"
+                        }
+                    }
+                }
+            }
+        },
+        "/bookingtype/{id}": {
+            "delete": {
+                "description": "Delete a Booking Type by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking Type"
+                ],
+                "summary": "Delete one Booking Type.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "BookingType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Booking Type by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking Type"
+                ],
+                "summary": "Update Booking Type.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "BookingType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "The body to update an Booking Type",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.bookingTypeInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BookingType"
+                        }
+                    }
+                }
+            }
+        },
         "/cars": {
             "get": {
-                "description": "Get a list of cars.",
+                "description": "Get a list of Cars.",
                 "produces": [
                     "application/json"
                 ],
@@ -147,7 +346,7 @@
                 }
             },
             "post": {
-                "description": "Create a new cars.",
+                "description": "Create a new Cars.",
                 "produces": [
                     "application/json"
                 ],
@@ -178,7 +377,7 @@
         },
         "/cars/{id}": {
             "delete": {
-                "description": "Delete a cars by id.",
+                "description": "Delete a Cars by id.",
                 "produces": [
                     "application/json"
                 ],
@@ -208,7 +407,7 @@
                 }
             },
             "patch": {
-                "description": "Update cars by id.",
+                "description": "Update Cars by id.",
                 "produces": [
                     "application/json"
                 ],
@@ -246,7 +445,7 @@
         },
         "/customer": {
             "get": {
-                "description": "Get a list of customer.",
+                "description": "Get a list of Customer.",
                 "produces": [
                     "application/json"
                 ],
@@ -267,7 +466,7 @@
                 }
             },
             "post": {
-                "description": "Create a new customer.",
+                "description": "Create a new Customer.",
                 "produces": [
                     "application/json"
                 ],
@@ -298,7 +497,7 @@
         },
         "/customer/{id}": {
             "delete": {
-                "description": "Delete a customer by id.",
+                "description": "Delete a Customer by id.",
                 "produces": [
                     "application/json"
                 ],
@@ -328,7 +527,7 @@
                 }
             },
             "patch": {
-                "description": "Update customer by id.",
+                "description": "Update Customer by id.",
                 "produces": [
                     "application/json"
                 ],
@@ -359,6 +558,246 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Customer"
+                        }
+                    }
+                }
+            }
+        },
+        "/driverincentive": {
+            "get": {
+                "description": "Get a list of Driver Incentive.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver Incentive"
+                ],
+                "summary": "Get All Driver Incentive.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DriverIncentive"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new Driver Incentive.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver Incentive"
+                ],
+                "summary": "Create New Driver Incentive.",
+                "parameters": [
+                    {
+                        "description": "The body to create a new Driver Incentive",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.driverIncentiveInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.DriverIncentive"
+                        }
+                    }
+                }
+            }
+        },
+        "/driverincentive/{id}": {
+            "delete": {
+                "description": "Delete a Driver Incentive by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver Incentive"
+                ],
+                "summary": "Delete one Driver Incentive.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DriverIncentive ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Driver Incentive by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Driver Incentive"
+                ],
+                "summary": "Update Driver Incentive.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DriverIncentive ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "The body to update an Driver Incentive",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.driverIncentiveInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.DriverIncentive"
+                        }
+                    }
+                }
+            }
+        },
+        "/membership": {
+            "get": {
+                "description": "Get a list of Membership.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Membership"
+                ],
+                "summary": "Get All Membership.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Membership"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new Membership.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Membership"
+                ],
+                "summary": "Create New Membership.",
+                "parameters": [
+                    {
+                        "description": "The body to create a new Membership",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.membershipInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Membership"
+                        }
+                    }
+                }
+            }
+        },
+        "/membership/{id}": {
+            "delete": {
+                "description": "Delete a Membership by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Membership"
+                ],
+                "summary": "Delete one Membership.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Membership ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Membership by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Membership"
+                ],
+                "summary": "Update Membership.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Membership ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "The body to update an Membership",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.membershipInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Membership"
                         }
                     }
                 }
@@ -396,6 +835,21 @@
                 }
             }
         },
+        "controllers.bookingTypeInput": {
+            "type": "object",
+            "required": [
+                "booking_type",
+                "description"
+            ],
+            "properties": {
+                "booking_type": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
         "controllers.carsInput": {
             "type": "object",
             "required": [
@@ -423,13 +877,46 @@
                 "phone_number"
             ],
             "properties": {
+                "membership_id": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },
                 "nik": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.driverIncentiveInput": {
+            "type": "object",
+            "required": [
+                "booking_id",
+                "incentive"
+            ],
+            "properties": {
+                "booking_id": {
+                    "type": "integer"
+                },
+                "incentive": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controllers.membershipInput": {
+            "type": "object",
+            "required": [
+                "discount",
+                "membership_name"
+            ],
+            "properties": {
+                "discount": {
+                    "type": "integer"
+                },
+                "membership_name": {
                     "type": "string"
                 }
             }
@@ -437,13 +924,21 @@
         "models.Booking": {
             "type": "object",
             "required": [
+                "booking_type_id",
                 "cars_id",
                 "customer_id",
+                "driver_id",
                 "end_rent",
                 "start_rent",
                 "total_cost"
             ],
             "properties": {
+                "booking_type": {
+                    "$ref": "#/definitions/models.BookingType"
+                },
+                "booking_type_id": {
+                    "type": "integer"
+                },
                 "cars": {
                     "$ref": "#/definitions/models.Cars"
                 },
@@ -459,6 +954,9 @@
                 "customer_id": {
                     "type": "integer"
                 },
+                "driver_id": {
+                    "type": "integer"
+                },
                 "end_rent": {
                     "type": "string"
                 },
@@ -472,6 +970,30 @@
                     "type": "string"
                 },
                 "total_cost": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.BookingType": {
+            "type": "object",
+            "required": [
+                "booking_type",
+                "description"
+            ],
+            "properties": {
+                "booking_type": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "integer"
                 },
                 "updated_at": {
@@ -521,13 +1043,70 @@
                 "id": {
                     "type": "integer"
                 },
+                "membership": {
+                    "$ref": "#/definitions/models.Membership"
+                },
+                "membership_id": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },
                 "nik": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "phone_number": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.DriverIncentive": {
+            "type": "object",
+            "required": [
+                "booking_id",
+                "incentive"
+            ],
+            "properties": {
+                "booking": {
+                    "$ref": "#/definitions/models.Booking"
+                },
+                "booking_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "incentive": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Membership": {
+            "type": "object",
+            "required": [
+                "discount",
+                "membership_name"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "discount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "membership_name": {
                     "type": "string"
                 },
                 "updated_at": {

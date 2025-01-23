@@ -16,7 +16,7 @@ type carsInput struct {
 
 // GetAllCars godoc
 // @Summary Get All Cars.
-// @Description Get a list of cars.
+// @Description Get a list of Cars.
 // @Tags Cars
 // @Produce json
 // @Success 200 {object} []models.Cars
@@ -33,7 +33,7 @@ func GetAllCars(c *gin.Context) {
 
 // CreateCars godoc
 // @Summary Create New Cars.
-// @Description Create a new cars.
+// @Description Create a new Cars.
 // @Tags Cars
 // @Param Body body carsInput true "The body to create a new Cars"
 // @Produce json
@@ -64,7 +64,7 @@ func CreateCars(c *gin.Context) {
 
 // UpdateCars godoc
 // @Summary Update Cars.
-// @Description Update cars by id.
+// @Description Update Cars by id.
 // @Tags Cars
 // @Param id path string true "Cars ID"
 // @Param Body body carsInput true "The body to update an Cars"
@@ -101,7 +101,7 @@ func UpdateCars(c *gin.Context) {
 
 // DeleteCars godoc
 // @Summary Delete one cars.
-// @Description Delete a cars by id.
+// @Description Delete a Cars by id.
 // @Tags Cars
 // @Param id path string true "Cars ID"
 // @Produce json

@@ -20,6 +20,16 @@ definitions:
     - start_rent
     - total_cost
     type: object
+  controllers.bookingTypeInput:
+    properties:
+      booking_type:
+        type: string
+      description:
+        type: string
+    required:
+    - booking_type
+    - description
+    type: object
   controllers.carsInput:
     properties:
       daily_rent:
@@ -35,10 +45,12 @@ definitions:
     type: object
   controllers.customerInput:
     properties:
+      membership_id:
+        type: integer
       name:
         type: string
       nik:
-        type: string
+        type: integer
       phone_number:
         type: string
     required:
@@ -46,8 +58,32 @@ definitions:
     - nik
     - phone_number
     type: object
+  controllers.driverIncentiveInput:
+    properties:
+      booking_id:
+        type: integer
+      incentive:
+        type: integer
+    required:
+    - booking_id
+    - incentive
+    type: object
+  controllers.membershipInput:
+    properties:
+      discount:
+        type: integer
+      membership_name:
+        type: string
+    required:
+    - discount
+    - membership_name
+    type: object
   models.Booking:
     properties:
+      booking_type:
+        $ref: '#/definitions/models.BookingType'
+      booking_type_id:
+        type: integer
       cars:
         $ref: '#/definitions/models.Cars'
       cars_id:
@@ -57,6 +93,8 @@ definitions:
       customer:
         $ref: '#/definitions/models.Customer'
       customer_id:
+        type: integer
+      driver_id:
         type: integer
       end_rent:
         type: string
@@ -71,11 +109,29 @@ definitions:
       updated_at:
         type: string
     required:
+    - booking_type_id
     - cars_id
     - customer_id
+    - driver_id
     - end_rent
     - start_rent
     - total_cost
+    type: object
+  models.BookingType:
+    properties:
+      booking_type:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - booking_type
+    - description
     type: object
   models.Cars:
     properties:
@@ -102,10 +158,14 @@ definitions:
         type: string
       id:
         type: integer
+      membership:
+        $ref: '#/definitions/models.Membership'
+      membership_id:
+        type: integer
       name:
         type: string
       nik:
-        type: string
+        type: integer
       phone_number:
         type: string
       updated_at:
@@ -115,12 +175,46 @@ definitions:
     - nik
     - phone_number
     type: object
+  models.DriverIncentive:
+    properties:
+      booking:
+        $ref: '#/definitions/models.Booking'
+      booking_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: integer
+      incentive:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - booking_id
+    - incentive
+    type: object
+  models.Membership:
+    properties:
+      created_at:
+        type: string
+      discount:
+        type: integer
+      id:
+        type: integer
+      membership_name:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - discount
+    - membership_name
+    type: object
 info:
   contact: {}
 paths:
   /booking:
     get:
-      description: Get a list of booking.
+      description: Get a list of Booking.
       produces:
       - application/json
       responses:
@@ -134,7 +228,7 @@ paths:
       tags:
       - Booking
     post:
-      description: Create a new booking.
+      description: Create a new Booking.
       parameters:
       - description: The body to create a new Booking
         in: body
@@ -154,7 +248,7 @@ paths:
       - Booking
   /booking/{id}:
     delete:
-      description: Delete a booking by id.
+      description: Delete a Booking by id.
       parameters:
       - description: Booking ID
         in: path
@@ -170,11 +264,29 @@ paths:
             additionalProperties:
               type: boolean
             type: object
-      summary: Delete one booking.
+      summary: Delete one Booking.
+      tags:
+      - Booking
+    get:
+      description: Get a Booking by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Get Booking by ID.
       tags:
       - Booking
     patch:
-      description: Update booking by id.
+      description: Update Booking by id.
       parameters:
       - description: Booking ID
         in: path
@@ -197,9 +309,122 @@ paths:
       summary: Update Booking.
       tags:
       - Booking
+  /booking/{id}/discount:
+    get:
+      description: Get a Booking by ID with Discount.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Booking'
+      summary: Get Booking by ID with Discount.
+      tags:
+      - Booking
+  /booking/discount:
+    get:
+      description: Get a list of Booking with Discount.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Booking'
+            type: array
+      summary: Get All Booking With Discount.
+      tags:
+      - Booking
+  /bookingtype:
+    get:
+      description: Get a list of Booking Type.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.BookingType'
+            type: array
+      summary: Get All Booking Type.
+      tags:
+      - Booking Type
+    post:
+      description: Create a new Booking Type.
+      parameters:
+      - description: The body to create a new Booking Type
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.bookingTypeInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BookingType'
+      summary: Create New Booking Type.
+      tags:
+      - Booking Type
+  /bookingtype/{id}:
+    delete:
+      description: Delete a Booking Type by id.
+      parameters:
+      - description: BookingType ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete one Booking Type.
+      tags:
+      - Booking Type
+    patch:
+      description: Update Booking Type by id.
+      parameters:
+      - description: BookingType ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The body to update an Booking Type
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.bookingTypeInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BookingType'
+      summary: Update Booking Type.
+      tags:
+      - Booking Type
   /cars:
     get:
-      description: Get a list of cars.
+      description: Get a list of Cars.
       produces:
       - application/json
       responses:
@@ -213,7 +438,7 @@ paths:
       tags:
       - Cars
     post:
-      description: Create a new cars.
+      description: Create a new Cars.
       parameters:
       - description: The body to create a new Cars
         in: body
@@ -233,7 +458,7 @@ paths:
       - Cars
   /cars/{id}:
     delete:
-      description: Delete a cars by id.
+      description: Delete a Cars by id.
       parameters:
       - description: Cars ID
         in: path
@@ -253,7 +478,7 @@ paths:
       tags:
       - Cars
     patch:
-      description: Update cars by id.
+      description: Update Cars by id.
       parameters:
       - description: Cars ID
         in: path
@@ -278,7 +503,7 @@ paths:
       - Cars
   /customer:
     get:
-      description: Get a list of customer.
+      description: Get a list of Customer.
       produces:
       - application/json
       responses:
@@ -292,7 +517,7 @@ paths:
       tags:
       - Customer
     post:
-      description: Create a new customer.
+      description: Create a new Customer.
       parameters:
       - description: The body to create a new Customer
         in: body
@@ -312,7 +537,7 @@ paths:
       - Customer
   /customer/{id}:
     delete:
-      description: Delete a customer by id.
+      description: Delete a Customer by id.
       parameters:
       - description: Customer ID
         in: path
@@ -332,7 +557,7 @@ paths:
       tags:
       - Customer
     patch:
-      description: Update customer by id.
+      description: Update Customer by id.
       parameters:
       - description: Customer ID
         in: path
@@ -355,4 +580,162 @@ paths:
       summary: Update Customer.
       tags:
       - Customer
+  /driverincentive:
+    get:
+      description: Get a list of Driver Incentive.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.DriverIncentive'
+            type: array
+      summary: Get All Driver Incentive.
+      tags:
+      - Driver Incentive
+    post:
+      description: Create a new Driver Incentive.
+      parameters:
+      - description: The body to create a new Driver Incentive
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.driverIncentiveInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DriverIncentive'
+      summary: Create New Driver Incentive.
+      tags:
+      - Driver Incentive
+  /driverincentive/{id}:
+    delete:
+      description: Delete a Driver Incentive by id.
+      parameters:
+      - description: DriverIncentive ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete one Driver Incentive.
+      tags:
+      - Driver Incentive
+    patch:
+      description: Update Driver Incentive by id.
+      parameters:
+      - description: DriverIncentive ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The body to update an Driver Incentive
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.driverIncentiveInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DriverIncentive'
+      summary: Update Driver Incentive.
+      tags:
+      - Driver Incentive
+  /membership:
+    get:
+      description: Get a list of Membership.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Membership'
+            type: array
+      summary: Get All Membership.
+      tags:
+      - Membership
+    post:
+      description: Create a new Membership.
+      parameters:
+      - description: The body to create a new Membership
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.membershipInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Membership'
+      summary: Create New Membership.
+      tags:
+      - Membership
+  /membership/{id}:
+    delete:
+      description: Delete a Membership by id.
+      parameters:
+      - description: Membership ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete one Membership.
+      tags:
+      - Membership
+    patch:
+      description: Update Membership by id.
+      parameters:
+      - description: Membership ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The body to update an Membership
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.membershipInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Membership'
+      summary: Update Membership.
+      tags:
+      - Membership
 swagger: "2.0"
