@@ -29,13 +29,6 @@ func init() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	mode := os.Getenv("GIN_MODE")
-	if mode == "release" {
-		gin.SetMode(gin.ReleaseMode)
-	} else {
-		log.Println("[INFO] Running in debug mode")
-	}
-
 	docs.SwaggerInfo.Title = "Car Rental API"
 	docs.SwaggerInfo.Description = "This is API Car Rental."
 	docs.SwaggerInfo.Version = "1.0"

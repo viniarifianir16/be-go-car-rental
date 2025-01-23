@@ -60,18 +60,6 @@ func ConnectDatabase() *gorm.DB {
 		db = dbGorm
 	}
 
-	// if !db.Migrator().HasTable(&models.Customer{}) {
-	// 	db.AutoMigrate(&models.Customer{})
-	// }
-
-	// if !db.Migrator().HasTable(&models.Cars{}) {
-	// 	db.AutoMigrate(&models.Cars{})
-	// }
-
-	// if !db.Migrator().HasTable(&models.Booking{}) {
-	// 	db.AutoMigrate(&models.Booking{})
-	// }
-
 	err := db.AutoMigrate(
 		&models.Customer{},
 		&models.Cars{},
@@ -85,36 +73,42 @@ func ConnectDatabase() *gorm.DB {
 		log.Fatal("Failed to migrate database:", err)
 	}
 
-	var customerCount int64
-	db.Model(&models.Customer{}).Count(&customerCount)
-	if customerCount == 0 {
-		seeders.SeedCustomer(db)
-	}
+	environment := os.Getenv("ENVIRONMENT")
+	if environment == "local" {
+		log.Println("Running seeders in local environment...")
 
-	var carCount int64
-	db.Model(&models.Cars{}).Count(&carCount)
-	if carCount == 0 {
-		seeders.SeedCars(db)
-	}
+		var customerCount int64
+		db.Model(&models.Customer{}).Count(&customerCount)
+		if customerCount == 0 {
+			seeders.SeedCustomer(db)
+		}
 
-	var membershipCount int64
-	db.Model(&models.Membership{}).Count(&membershipCount)
-	if membershipCount == 0 {
-		seeders.SeedMembership(db)
-	}
+		var carCount int64
+		db.Model(&models.Cars{}).Count(&carCount)
+		if carCount == 0 {
+			seeders.SeedCars(db)
+		}
 
-	var bookingTypeCount int64
-	db.Model(&models.BookingType{}).Count(&bookingTypeCount)
-	if bookingTypeCount == 0 {
-		seeders.SeedBookingType(db)
-	}
+		var membershipCount int64
+		db.Model(&models.Membership{}).Count(&membershipCount)
+		if membershipCount == 0 {
+			seeders.SeedMembership(db)
+		}
 
-	var driver int64
-	db.Model(&models.Driver{}).Count(&driver)
-	if driver == 0 {
-		seeders.SeedDriver(db)
-	}
+		var bookingTypeCount int64
+		db.Model(&models.BookingType{}).Count(&bookingTypeCount)
+		if bookingTypeCount == 0 {
+			seeders.SeedBookingType(db)
+		}
 
+		var driver int64
+		db.Model(&models.Driver{}).Count(&driver)
+		if driver == 0 {
+			seeders.SeedDriver(db)
+		}
+	} else {
+		log.Println("Skipping seeders in production environment.")
+	}
 	return db
 }
 
