@@ -24,11 +24,13 @@ type carsInput struct {
 func GetAllCars(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var cars []models.Cars
+
 	if err := db.Find(&cars).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, cars)
+
+	c.JSON(http.StatusOK, gin.H{"data": cars})
 }
 
 // GetCarsById godoc
@@ -48,7 +50,7 @@ func GetCarsByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, cars)
+	c.JSON(http.StatusOK, gin.H{"data": cars})
 }
 
 // CreateCars godoc
@@ -79,7 +81,7 @@ func CreateCars(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, cars)
+	c.JSON(http.StatusCreated, gin.H{"data": cars})
 }
 
 // UpdateCars godoc
@@ -116,7 +118,7 @@ func UpdateCars(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, cars)
+	c.JSON(http.StatusOK, gin.H{"data": cars})
 }
 
 // DeleteCars godoc

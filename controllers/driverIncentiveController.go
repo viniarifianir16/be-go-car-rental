@@ -30,7 +30,7 @@ func GetAllDriverIncentive(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, driverIncentive)
+	c.JSON(http.StatusOK, gin.H{"data": driverIncentive})
 }
 
 // GetDriverById godoc
@@ -43,14 +43,14 @@ func GetAllDriverIncentive(c *gin.Context) {
 // @Router /driverincentive/{id} [get]
 func GetDriverIncentiveByID(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var driver models.Driver
+	var driverIncentive models.DriverIncentive
 
-	if err := db.Where("id = ?", c.Param("id")).First(&driver).Error; err != nil {
+	if err := db.Where("id = ?", c.Param("id")).First(&driverIncentive).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, driver)
+	c.JSON(http.StatusOK, gin.H{"data": driverIncentive})
 }
 
 // CreateDriverIncentive godoc
@@ -94,7 +94,7 @@ func CreateDriverIncentive(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, driverIncentive)
+	c.JSON(http.StatusCreated, gin.H{"data": driverIncentive})
 }
 
 // UpdateDriverIncentive godoc
@@ -138,7 +138,7 @@ func UpdateDriverIncentive(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, driverIncentive)
+	c.JSON(http.StatusOK, gin.H{"data": driverIncentive})
 }
 
 // DeleteDriverIncentive godoc

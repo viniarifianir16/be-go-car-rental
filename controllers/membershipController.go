@@ -23,11 +23,12 @@ type membershipInput struct {
 func GetAllMembership(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var membership []models.Membership
+
 	if err := db.Find(&membership).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, membership)
+	c.JSON(http.StatusOK, gin.H{"data": membership})
 }
 
 // GetMembershipById godoc
@@ -47,7 +48,7 @@ func GetMembershipByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, membership)
+	c.JSON(http.StatusOK, gin.H{"data": membership})
 }
 
 // CreateMembership godoc
@@ -78,7 +79,7 @@ func CreateMembership(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, membership)
+	c.JSON(http.StatusCreated, gin.H{"data": membership})
 }
 
 // UpdateMembership godoc
@@ -114,7 +115,7 @@ func UpdateMembership(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, membership)
+	c.JSON(http.StatusOK, gin.H{"data": membership})
 }
 
 // DeleteMembership godoc

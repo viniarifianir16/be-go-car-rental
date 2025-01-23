@@ -29,7 +29,7 @@ func GetAllDriver(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, driver)
+	c.JSON(http.StatusOK, gin.H{"data": driver})
 }
 
 // GetDriverById godoc
@@ -49,7 +49,7 @@ func GetDriverByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, driver)
+	c.JSON(http.StatusOK, gin.H{"data": driver})
 }
 
 // CreateDriver godoc
@@ -82,7 +82,7 @@ func CreateDriver(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, driver)
+	c.JSON(http.StatusCreated, gin.H{"data": driver})
 }
 
 // UpdateDriver godoc
@@ -120,7 +120,7 @@ func UpdateDriver(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, driver)
+	c.JSON(http.StatusOK, gin.H{"data": driver})
 }
 
 // DeleteDriver godoc

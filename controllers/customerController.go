@@ -29,7 +29,7 @@ func GetAllCustomer(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, customer)
+	c.JSON(http.StatusOK, gin.H{"data": customer})
 }
 
 // GetCustomerById godoc
@@ -49,7 +49,7 @@ func GetCustomerbyID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, customer)
+	c.JSON(http.StatusOK, gin.H{"data": customer})
 }
 
 // CreateCustomer godoc
@@ -82,7 +82,7 @@ func CreateCustomer(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, customer)
+	c.JSON(http.StatusCreated, gin.H{"data": customer})
 }
 
 // UpdateCustomer godoc
@@ -120,7 +120,7 @@ func UpdateCustomer(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, customer)
+	c.JSON(http.StatusOK, gin.H{"data": customer})
 }
 
 // DeleteCustomer godoc

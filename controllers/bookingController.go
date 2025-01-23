@@ -35,7 +35,7 @@ func GetAllBooking(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, booking)
+	c.JSON(http.StatusOK, gin.H{"data": booking})
 }
 
 // GetBookingById godoc
@@ -55,7 +55,7 @@ func GetBookingByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, booking)
+	c.JSON(http.StatusOK, gin.H{"data": booking})
 }
 
 // GetBookingByIdWithDetail godoc
@@ -187,7 +187,7 @@ func CreateBooking(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, booking)
+	c.JSON(http.StatusCreated, gin.H{"data": booking})
 }
 
 // UpdateBooking godoc
@@ -257,7 +257,7 @@ func UpdateBooking(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, booking)
+	c.JSON(http.StatusOK, gin.H{"data": booking})
 }
 
 // DeleteBooking godoc

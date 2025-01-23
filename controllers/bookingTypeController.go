@@ -27,7 +27,7 @@ func GetAllBookingType(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, bookingType)
+	c.JSON(http.StatusOK, gin.H{"data": bookingType})
 }
 
 // GetBookingTypeById godoc
@@ -47,7 +47,7 @@ func GetBookingTypeByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, bookingType)
+	c.JSON(http.StatusOK, gin.H{"data": bookingType})
 }
 
 // CreateBookingType godoc
@@ -78,7 +78,7 @@ func CreateBookingType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, bookingType)
+	c.JSON(http.StatusCreated, gin.H{"data": bookingType})
 }
 
 // UpdateBookingType godoc
@@ -114,7 +114,7 @@ func UpdateBookingType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, bookingType)
+	c.JSON(http.StatusOK, gin.H{"data": bookingType})
 }
 
 // DeleteBookingType godoc
