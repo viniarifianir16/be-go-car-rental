@@ -10,7 +10,6 @@
   ],
   "functions": {
     "api/api.go": {
-      "runtime": "vercel-go@0.5.0",
       "maxDuration": 15
     }
   }
